@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="choose_city">Выбрать город</string>
+    <string name="city_definition">Определение города по геолокации</string>
+    <string name="CityName">Город</string>
+    <string name="city_name_set">Название города</string>
+    <string name="degree_set">х С</string>
+    <string name="degree">Температура</string>
+    <string name="description">Описание</string>
+    <string name="description_set">Установка описания</string>
+    <string name="default_city">Королёв</string>
+</resources>
