@@ -1,5 +1,4 @@
 # weatherApp
-Pet project with using openweathermap api
 
 Pet project with using openweathermap api. You can get weather of your city by manual input or by geolocation with internet using connection.
 
