@@ -7,7 +7,6 @@
     android:background="@drawable/blur_blue"
     tools:context=".presentation.MainActivity">
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
@@ -19,99 +18,115 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewCityName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="#99000000"
-                android:gravity="center"
-                android:text="@string/CityName"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textViewCityNameSet" />
-
-            <TextView
                 android:id="@+id/textViewCityNameSet"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="@string/city_name_set"
                 android:textColor="@color/white"
                 android:textStyle="normal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textViewCityName"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
+                app:layout_constraintEnd_toStartOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewDegree"
-                android:layout_width="match_parent"
+                android:id="@+id/textViewDateTime"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="#99000000"
-                android:gravity="center"
-                android:text="@string/degree"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCityNameSet" />
-
-            <TextView
-                android:id="@+id/textViewDegreeSet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/degree_set"
-                android:textColor="@color/white"
-                android:textStyle="normal"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textViewDegree"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCityNameSet" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@+id/guideline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDateTime"
+                app:srcCompat="@android:drawable/ic_popup_sync" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
 
             <TextView
-                android:id="@+id/textViewDescription"
-                android:layout_width="match_parent"
+                android:id="@+id/textViewDegree"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="#99000000"
                 android:gravity="center"
-                android:text="@string/description"
                 android:textColor="@color/white"
-                android:textStyle="bold"
+                android:textSize="36sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toTopOf="@+id/textViewDescriptionSet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCityNameSet" />
+                app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
             <TextView
                 android:id="@+id/textViewDescriptionSet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
                 android:gravity="center"
-                android:text="@string/description_set"
                 android:textColor="@color/white"
                 android:textStyle="normal"
+                app:layout_constraintBottom_toTopOf="@+id/textViewPressure"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textViewDegree"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCityNameSet" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewDegree" />
+
+            <TextView
+                android:id="@+id/textViewPressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewWet"
+                app:layout_constraintEnd_toStartOf="@+id/textViewWet"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewWet" />
+
+            <TextView
+                android:id="@+id/textViewWet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textViewWind"
+                app:layout_constraintStart_toEndOf="@+id/textViewPressure"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionSet" />
+
+            <TextView
+                android:id="@+id/textViewWind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewWet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textViewWet"
+                app:layout_constraintTop_toTopOf="@+id/textViewWet" />
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.Guideline
@@ -127,40 +142,26 @@
         android:layout_height="0dp"
         android:layout_margin="10dp"
         app:cardBackgroundColor="#99000000"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3">
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/editTextTextPersonName"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/resView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                android:text="@string/default_city"
-                android:textColor="@color/white"
-                android:textColorHint="#FCFDFD" />
-
-            <Button
-                android:id="@+id/buttonCity"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/design_default_color_error"
-                android:text="@string/choose_city"
-                android:textColor="#E1F5FE"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.Guideline
@@ -169,20 +170,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75" />
-
-    <Button
-        android:id="@+id/buttonLocation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:backgroundTint="@color/design_default_color_error"
-        android:text="@string/city_definition"
-        android:textColor="#E1F5FE"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.842"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

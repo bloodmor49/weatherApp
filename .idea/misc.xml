@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable/ic_cloudy.xml" value="0.1965" />
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable/ic_rainy.xml" value="0.1965" />
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/WeatherApp/app/src/main/res/drawable/ic_sunnycloudy.xml" value="0.1965" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/WeatherApp/app/src/main/res/layout-v31/activity_main.xml" value="0.13541666666666666" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/WeatherApp/app/src/main/res/layout/bg.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/WeatherApp/app/src/main/res/layout/weather_card.xml" value="0.4083333333333333" />
       </map>
     </option>
   </component>

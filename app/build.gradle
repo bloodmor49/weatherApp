@@ -61,7 +61,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.5.0-rc02"
 
     // Retrofit2
-    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3"
 
     // GSON
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

@@ -1,14 +1,13 @@
 package com.example.weatherapp.di
 
-import com.example.weatherapp.data.ApiFactory
-import com.example.weatherapp.data.AppRepositoryImpl
-import com.example.weatherapp.domain.AppRepository
-import dagger.Binds
+import android.app.Application
+import com.example.weatherapp.data.remote.ApiFactory
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -19,9 +18,11 @@ interface AppModule {
         @Singleton
         @Provides
         fun provideApiFactory() = ApiFactory
+
+        @Singleton
+        @Provides
+        fun provideFusedLocationProviderClient(application:Application):FusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(application)
     }
 
-    @Binds
-    @Singleton
-    fun provideAppRepository(impl: AppRepositoryImpl): AppRepository
 }

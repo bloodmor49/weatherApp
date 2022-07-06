@@ -1,26 +1,30 @@
 package com.example.weatherapp.presentation
 
 import android.Manifest
-import android.os.Build
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
-import com.example.weatherapp.other.Constants.REQUEST_CODE_LOCATION_PERMISSION
-import com.example.weatherapp.other.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
-import pub.devrel.easypermissions.AppSettingsDialog
-import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity @Inject constructor(
-) : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
+) : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+
+    @Inject
+    lateinit var weatherAdapter: WeatherAdapter
+
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
     private lateinit var viewModel: MainViewModel
 
@@ -29,73 +33,50 @@ class MainActivity @Inject constructor(
         setContentView(binding.root)
         requestPermissions()
         setUpViewModel()
-        setUpButtons()
+        setUpRecyclerView()
+
     }
 
+    private fun setUpRecyclerView() {
+        with(binding.resView) {
+            this?.layoutManager =
+                LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+            this?.adapter = weatherAdapter
+        }
+    }
+
+    private fun requestPermissions() {
+        requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) {
+            viewModel.loadWeatherInfo()
+        }
+        requestPermissionLauncher.launch(arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ))
+    }
+
+    @SuppressLint("SetTextI18n")
     private fun setUpViewModel() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel.loadWeatherInfo()
 
-        viewModel.pojoMain.observe(this) {
-            if (it != null) {
-                binding.textViewDegreeSet?.text = "${it.main.temp} C"
-                binding.textViewCityNameSet?.text = it.name
-                binding.textViewDescriptionSet?.text = it.weather[0].description
-                binding.editTextTextPersonName.setText(it.name)
-            } else Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+        viewModel.weatherState.observe(this) { result ->
+            val currentWeather = result?.currentWeatherData
+            with(binding) {
+                weatherAdapter.weatherListToday =
+                    result.weatherDataPerDay[0] ?: emptyList()
+                textViewDescriptionSet?.text =
+                    currentWeather?.weatherType?.weatherDesc
+                textViewDateTime?.text = "${currentWeather?.time}"
+                textViewDegree?.text =
+                    "${currentWeather?.temperatureCelsius} °C"
+                textViewPressure?.text = "${currentWeather?.pressure} Hg "
+                textViewWet?.text = "${currentWeather?.humidity} %"
+                textViewWind?.text = "${currentWeather?.windSpeed} м/с"
+                imageView?.setImageResource(currentWeather?.weatherType!!.iconRes)
+            }
         }
-    }
-
-    private fun setUpButtons() {
-        binding.buttonCity?.setOnClickListener {
-            viewModel.getWeatherByCityUseCase(this, binding.editTextTextPersonName.text.trim().toString())
-        }
-
-        binding.buttonLocation.setOnClickListener {
-            viewModel.getWeatherByLocation(this)
-        }
-    }
-
-    /** Запрос разрешения на получения гео-данных */
-    private fun requestPermissions() {
-        if (TrackingUtility.hasLocationPermissions(this)) {
-            return
-        }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            EasyPermissions.requestPermissions(
-                this,
-                "Нужны разрешения на геолокацию",
-                REQUEST_CODE_LOCATION_PERMISSION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        } else {
-            EasyPermissions.requestPermissions(
-                this,
-                "Нужны разрешения на геолокацию",
-                REQUEST_CODE_LOCATION_PERMISSION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            )
-        }
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            AppSettingsDialog.Builder(this).build().show()
-        } else {
-            requestPermissions()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray,
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }

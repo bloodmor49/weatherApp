@@ -1,34 +1,44 @@
 package com.example.weatherapp.presentation
 
-import android.content.Context
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.domain.entities.PojoMain
-import com.example.weatherapp.domain.usecases.GetWeatherByCityUseCase
-import com.example.weatherapp.domain.usecases.GetWeatherByLocationUseCase
+import com.example.weatherapp.domain.entities.WeatherInfo
+import com.example.weatherapp.domain.usecases.GetLocationUseCase
+import com.example.weatherapp.domain.usecases.GetWeatherDataUseCase
+import com.example.weatherapp.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getWeatherByCityUsecase: GetWeatherByCityUseCase,
-    private val getWeatherByCoordinatesUseCase: GetWeatherByLocationUseCase
+    private val getWeatherDataUseCase: GetWeatherDataUseCase,
+    private val getLocationUseCase: GetLocationUseCase,
 ) : ViewModel() {
 
-    var pojoMain = MutableLiveData<PojoMain?>()
+    private var _weatherInfo = MutableLiveData<WeatherInfo>()
+    val weatherState: LiveData<WeatherInfo>
+        get() = _weatherInfo
 
-    fun getWeatherByCityUseCase(context: Context, cityName: String){
+    fun loadWeatherInfo() {
         viewModelScope.launch {
-            pojoMain.postValue(getWeatherByCityUsecase.getWeatherByCity(context, cityName))
-        }
-    }
-
-    fun getWeatherByLocation(context: Context) {
-        viewModelScope.launch {
-            pojoMain.postValue(getWeatherByCoordinatesUseCase.getWeatherByLocation(context))
+            getLocationUseCase.getCurrentLocation()?.let {
+                when (val result =
+                    getWeatherDataUseCase.getWeatherData(it.longitude, it.latitude)) {
+                    is Resource.Success -> {
+                        _weatherInfo.value = result.data!!
+                        Log.d("LocationResult", "Success ${result.data}")
+                    }
+                    is Resource.Error -> {
+                        Log.d("LocationResult", "Error ${result.message}")
+                    }
+                }
+            }
         }
     }
 
@@ -36,6 +46,5 @@ class MainViewModel @Inject constructor(
         super.onCleared()
         viewModelScope.cancel()
     }
-
 
 }
